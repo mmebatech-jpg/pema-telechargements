@@ -1,0 +1,208 @@
+<!doctype html>
+<!--
+  Page de téléchargement de « Pema pour ordinateur » (français / anglais).
+  À héberger n'importe où (site mmebatech, GitHub Pages du dépôt public…).
+  Les liens pointent vers la dernière publication du dépôt public défini
+  ci-dessous (voir .github/workflows/pema-ordinateur.yml).
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pema pour ordinateur</title>
+<meta name="description" content="Pema pour ordinateur : laisse l'app Pema colorer tes clips dans DaVinci Resolve Studio. Mac, Windows, Linux.">
+<style>
+  :root {
+    --fond: #0E0D0C; --carte: #1B1916; --carte2: #26231F; --bord: #3A362F;
+    --texte: #F3F1EC; --doux: #B5B0A8; --ambre: #F0B44A; --sur-ambre: #1B1408;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--texte);
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .marque { font-weight: 800; letter-spacing: .02em; }
+  .langue { background: none; border: 1px solid var(--bord); color: var(--doux);
+            border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+  h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1.1; margin: 40px 0 12px; }
+  .chapo { color: var(--doux); font-size: 18px; margin: 0 0 32px; }
+  .principal { display: flex; flex-direction: column; gap: 10px; background: var(--carte);
+               border-radius: 20px; padding: 24px; }
+  .bouton { display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            min-height: 52px; padding: 0 24px; border-radius: 999px; text-decoration: none;
+            font-weight: 700; text-align: center; background: var(--ambre); color: var(--sur-ambre); }
+  .bouton:focus-visible, .lien:focus-visible, .langue:focus-visible { outline: 2px solid var(--ambre); outline-offset: 3px; }
+  .petit { color: var(--doux); font-size: 14px; margin: 0; }
+  .grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .lien { display: block; padding: 14px 16px; border: 1px solid var(--bord); border-radius: 14px;
+          color: var(--texte); text-decoration: none; background: var(--carte2); }
+  .lien small { display: block; color: var(--doux); }
+  h2 { font-size: 20px; margin: 40px 0 12px; }
+  ol { padding-left: 22px; margin: 0; }
+  li { margin: 0 0 10px; }
+  .note { background: var(--carte); border-radius: 14px; padding: 16px; color: var(--doux); }
+  code { color: var(--texte); background: var(--carte2); padding: 1px 6px; border-radius: 6px; }
+  footer { margin-top: 48px; color: var(--doux); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="marque">Pema</span>
+    <button class="langue" id="langue" type="button">English</button>
+  </header>
+
+  <h1 data-t="titre">Pema pour ordinateur</h1>
+  <p class="chapo" data-t="chapo">Ton téléphone analyse chaque clip, ton ordinateur applique la couleur dans DaVinci Resolve. Rien ne quitte ton Wi-Fi, et ton étalonnage n'est jamais modifié.</p>
+
+  <section class="principal" aria-labelledby="pour-toi">
+    <p class="petit" id="pour-toi" data-t="detecte">Pour ton ordinateur :</p>
+    <a class="bouton" id="principal" href="#">…</a>
+    <p class="petit" id="principal-note"></p>
+    <div class="grille" id="tous"></div>
+  </section>
+
+  <h2 data-t="avantTitre">Avant de commencer</h2>
+  <div class="note" data-t="avant">DaVinci Resolve <b>Studio</b> (la version gratuite ne peut pas être pilotée). Dans DaVinci : Préférences → Système → Général → « External scripting using » : <b>Local</b>. Le téléphone et l'ordinateur sur le même Wi-Fi.</div>
+
+  <h2 data-t="etapesTitre">Installer</h2>
+  <ol id="etapes"></ol>
+
+  <h2 data-t="ensuiteTitre">Ensuite</h2>
+  <ol>
+    <li data-t="ensuite1">Une page s'ouvre avec l'<b>adresse</b> et le <b>code</b> (toujours sur <code>http://localhost:8765</code>, sur l'ordinateur).</li>
+    <li data-t="ensuite2">Dans l'app Pema → Outils → Mon ordinateur : entre l'adresse et le code, puis « Tester la connexion ».</li>
+    <li data-t="ensuite3">Choisis « Demander » ou « Tout seul » : Pema colore les clips de la timeline ouverte dans une version « Pema ».</li>
+  </ol>
+
+  <footer data-t="pied">mmebatech — Pema. Pema pour ordinateur démarre avec l'ordinateur ; tu peux l'arrêter ou le désactiver depuis sa page.</footer>
+</main>
+
+<script>
+(function () {
+  // Dépôt PUBLIC où sont publiées les applications (voir le workflow).
+  var DEPOT = "mmebatech-jpg/pema-telechargements";
+  var BASE = "https://github.com/" + DEPOT + "/releases/latest/download/";
+  var FICHIERS = {
+    macArm: "Pema-pour-ordinateur-mac-apple-silicon.dmg",
+    macIntel: "Pema-pour-ordinateur-mac-intel.dmg",
+    windows: "Pema-pour-ordinateur-windows.zip",
+    linux: "Pema-pour-ordinateur-linux.tar.gz"
+  };
+
+  var T = {
+    fr: {
+      autre: "English", titre: "Pema pour ordinateur",
+      chapo: "Ton téléphone analyse chaque clip, ton ordinateur applique la couleur dans DaVinci Resolve. Rien ne quitte ton Wi-Fi, et ton étalonnage n'est jamais modifié.",
+      detecte: "Pour ton ordinateur :", telecharger: "Télécharger pour ",
+      noms: { macArm: "Mac (Apple M1 à M4)", macIntel: "Mac (Intel)", windows: "Windows 10 / 11", linux: "Linux (Ubuntu 22.04+)" },
+      details: { macArm: ".dmg", macIntel: ".dmg", windows: ".zip", linux: ".tar.gz" },
+      macDoute: "Mac acheté avant fin 2020 ? Prends la version Intel.",
+      avantTitre: "Avant de commencer",
+      avant: "DaVinci Resolve <b>Studio</b> (la version gratuite ne peut pas être pilotée). Dans DaVinci : Préférences → Système → Général → « External scripting using » : <b>Local</b>. Le téléphone et l'ordinateur sur le même Wi-Fi.",
+      etapesTitre: "Installer",
+      etapes: {
+        mac: ["Ouvre le fichier .dmg et glisse « Pema pour ordinateur » dans Applications.",
+              "Ouvre-le depuis Applications. Si macOS dit « développeur non identifié » : Réglages Système → Confidentialité et sécurité → « Ouvrir quand même »."],
+        windows: ["Décompresse le .zip dans un dossier qui ne bougera plus (par exemple Documents\\Pema).",
+                  "Double-clique <code>PemaOrdinateur.exe</code>. Si Windows affiche « Windows a protégé votre ordinateur » : « Informations complémentaires » → « Exécuter quand même ».",
+                  "Si Windows demande l'accès au réseau : autorise les réseaux <b>privés</b>."],
+        linux: ["Décompresse le .tar.gz dans un dossier qui ne bougera plus.",
+                "Dans un terminal, dans ce dossier : <code>./PemaOrdinateur --installer</code>"]
+      },
+      ensuiteTitre: "Ensuite",
+      ensuite1: "Une page s'ouvre avec l'<b>adresse</b> et le <b>code</b> (toujours sur <code>http://localhost:8765</code>, sur l'ordinateur).",
+      ensuite2: "Dans l'app Pema → Outils → Mon ordinateur : entre l'adresse et le code, puis « Tester la connexion ».",
+      ensuite3: "Choisis « Demander » ou « Tout seul » : Pema colore les clips de la timeline ouverte dans une version « Pema ».",
+      pied: "mmebatech — Pema. Pema pour ordinateur démarre avec l'ordinateur ; tu peux l'arrêter ou le désactiver depuis sa page."
+    },
+    en: {
+      autre: "Français", titre: "Pema for computer",
+      chapo: "Your phone analyses each clip, your computer applies the colour in DaVinci Resolve. Nothing leaves your Wi-Fi, and your grade is never changed.",
+      detecte: "For your computer:", telecharger: "Download for ",
+      noms: { macArm: "Mac (Apple M1 to M4)", macIntel: "Mac (Intel)", windows: "Windows 10 / 11", linux: "Linux (Ubuntu 22.04+)" },
+      details: { macArm: ".dmg", macIntel: ".dmg", windows: ".zip", linux: ".tar.gz" },
+      macDoute: "Mac bought before late 2020? Get the Intel version.",
+      avantTitre: "Before you start",
+      avant: "DaVinci Resolve <b>Studio</b> (the free version cannot be controlled). In DaVinci: Preferences → System → General → “External scripting using”: <b>Local</b>. Phone and computer on the same Wi-Fi.",
+      etapesTitre: "Install",
+      etapes: {
+        mac: ["Open the .dmg file and drag “Pema pour ordinateur” to Applications.",
+              "Open it from Applications. If macOS says “unidentified developer”: System Settings → Privacy & Security → “Open Anyway”."],
+        windows: ["Unzip into a folder that will not move (e.g. Documents\\Pema).",
+                  "Double-click <code>PemaOrdinateur.exe</code>. If Windows shows “Windows protected your PC”: “More info” → “Run anyway”.",
+                  "If Windows asks for network access: allow <b>private</b> networks."],
+        linux: ["Extract the .tar.gz into a folder that will not move.",
+                "In a terminal, in that folder: <code>./PemaOrdinateur --installer</code>"]
+      },
+      ensuiteTitre: "Then",
+      ensuite1: "A page opens with the <b>address</b> and the <b>code</b> (always at <code>http://localhost:8765</code>, on the computer).",
+      ensuite2: "In the Pema app → Tools → My computer: enter the address and code, then “Test connection”.",
+      ensuite3: "Choose “Ask” or “On its own”: Pema grades the clips of the open timeline in a “Pema” version.",
+      pied: "mmebatech — Pema. Pema for computer starts with the computer; you can quit it or turn that off from its page."
+    }
+  };
+
+  function detecterSysteme() {
+    var ua = navigator.userAgent || "";
+    var plateforme = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+    if (/Win/i.test(plateforme) || /Windows/i.test(ua)) return "windows";
+    if (/Linux/i.test(plateforme) && !/Android/i.test(ua)) return "linux";
+    if (/Mac/i.test(plateforme) || /Mac OS X/i.test(ua)) {
+      // Un navigateur Mac ne dit pas toujours s'il s'agit d'une puce Apple :
+      // indice par la carte graphique, Apple Silicon par défaut (Mac récents).
+      try {
+        var gl = document.createElement("canvas").getContext("webgl");
+        var info = gl && gl.getExtension("WEBGL_debug_renderer_info");
+        var carte = info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : "";
+        if (/Intel|AMD|Radeon/i.test(carte)) return "macIntel";
+      } catch (e) {}
+      return "macArm";
+    }
+    return null; // téléphone ou système inconnu : tous les choix
+  }
+
+  var systeme = detecterSysteme();
+  var langue = /^fr/i.test(navigator.language || "") ? "fr" : "en";
+  try { var garde = localStorage.getItem("pema-langue"); if (garde === "fr" || garde === "en") langue = garde; } catch (e) {}
+
+  function afficher() {
+    var t = T[langue];
+    document.documentElement.lang = langue;
+    document.title = t.titre;
+    document.getElementById("langue").textContent = t.autre;
+    document.querySelectorAll("[data-t]").forEach(function (el) {
+      var cle = el.getAttribute("data-t");
+      if (typeof t[cle] === "string") el.innerHTML = t[cle];
+    });
+    var principal = document.getElementById("principal");
+    var note = document.getElementById("principal-note");
+    var cible = systeme || "macArm";
+    principal.textContent = t.telecharger + t.noms[cible];
+    principal.href = BASE + FICHIERS[cible];
+    principal.parentNode.querySelector("#pour-toi").style.display = systeme ? "" : "none";
+    note.textContent = (cible === "macArm" || cible === "macIntel") ? t.macDoute : "";
+    var tous = document.getElementById("tous");
+    tous.innerHTML = "";
+    Object.keys(FICHIERS).forEach(function (cle) {
+      var a = document.createElement("a");
+      a.className = "lien";
+      a.href = BASE + FICHIERS[cle];
+      a.innerHTML = t.noms[cle] + "<small>" + t.details[cle] + "</small>";
+      tous.appendChild(a);
+    });
+    var etapes = document.getElementById("etapes");
+    var famille = /^mac/.test(cible) ? "mac" : cible;
+    etapes.innerHTML = t.etapes[famille].map(function (e) { return "<li>" + e + "</li>"; }).join("");
+  }
+
+  document.getElementById("langue").addEventListener("click", function () {
+    langue = langue === "fr" ? "en" : "fr";
+    try { localStorage.setItem("pema-langue", langue); } catch (e) {}
+    afficher();
+  });
+  afficher();
+})();
+</script>
+</body>
+</html>

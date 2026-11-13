@@ -1,0 +1,66 @@
+PEMA POUR ORDINATEUR — mode d'emploi                  (English below)
+====================================================================
+
+Pema pour ordinateur laisse l'app Pema (téléphone) colorer tes clips dans
+DaVinci Resolve Studio. Rien ne quitte ton réseau Wi-Fi. Ton étalonnage n'est
+jamais modifié : Pema travaille dans une version de couleur « Pema » de chaque clip.
+
+1. DaVinci Resolve STUDIO → Préférences → Système → Général →
+   « External scripting using » : Local. (La version gratuite ne peut pas être pilotée.)
+
+2. Installe Pema pour ordinateur :
+   - MAC : ouvre le .dmg, glisse « Pema pour ordinateur » dans Applications,
+     puis ouvre-le depuis Applications.
+     Si macOS dit « développeur non identifié » : Réglages Système →
+     Confidentialité et sécurité → « Ouvrir quand même ».
+   - WINDOWS : décompresse le .zip dans un dossier qui ne bougera plus
+     (ex. Documents\Pema), puis double-clique PemaOrdinateur.exe.
+     Si Windows affiche « Windows a protégé votre ordinateur » :
+     « Informations complémentaires » → « Exécuter quand même ».
+     S'il demande l'accès au réseau : autorise les réseaux PRIVÉS.
+   - LINUX : décompresse le .tar.gz dans un dossier qui ne bougera plus,
+     puis dans un terminal :  ./PemaOrdinateur --installer
+
+3. Une page s'ouvre dans ton navigateur avec l'ADRESSE et le CODE.
+   Dans Pema (téléphone) → Outils → Mon ordinateur : entre-les.
+   La page reste sur http://localhost:8765 (sur l'ordinateur seulement).
+
+Pema pour ordinateur démarre ensuite tout seul avec l'ordinateur (désactivable
+sur sa page). Le téléphone et l'ordinateur doivent être sur le même Wi-Fi.
+
+Tes looks DaVinci (.drx) : dépose-les dans le dossier « .pema/looks » de ton
+dossier personnel ; laisse le nœud 1 vide, Pema y met sa correction.
+
+
+PEMA FOR COMPUTER — how to use
+====================================================================
+
+Pema for computer lets the Pema app (phone) grade your clips in DaVinci
+Resolve Studio. Nothing leaves your Wi-Fi network. Your grade is never changed:
+Pema works in a "Pema" colour version of each clip.
+
+1. DaVinci Resolve STUDIO → Preferences → System → General →
+   "External scripting using": Local. (The free version cannot be controlled.)
+
+2. Install Pema for computer:
+   - MAC: open the .dmg, drag "Pema pour ordinateur" to Applications, then
+     open it from Applications. If macOS says "unidentified developer":
+     System Settings → Privacy & Security → "Open Anyway".
+   - WINDOWS: unzip into a folder that will not move (e.g. Documents\Pema),
+     then double-click PemaOrdinateur.exe. If Windows shows "Windows protected
+     your PC": "More info" → "Run anyway". If it asks for network access:
+     allow PRIVATE networks.
+   - LINUX: extract the .tar.gz into a folder that will not move, then in a
+     terminal:  ./PemaOrdinateur --installer
+
+3. A page opens in your browser with the ADDRESS and the CODE.
+   In Pema (phone) → Tools → My computer: enter them.
+   The page stays at http://localhost:8765 (on the computer only).
+
+Pema for computer then starts with the computer (can be turned off on its
+page). The phone and the computer must be on the same Wi-Fi.
+
+Your DaVinci looks (.drx): put them in the ".pema/looks" folder of your home
+folder; leave node 1 empty, Pema puts its correction there.
+
+mmebatech — Pema
